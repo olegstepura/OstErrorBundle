@@ -1,0 +1,17 @@
+{
+    "name": "olegstepura/error-bundle",
+    "description": "Email notify about errors and exceptions happened in production mode",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleg Stepura",
+            "email": "github@oleg.stepura.com",
+            "homepage": "http://oleg.stepura.com/"
+        }
+    ],
+    "require": {
+        "symfony/symfony": ">=2.0",
+	    "swiftmailer/swiftmailer": ">=4.1.2",
+        "twig/twig": ">=1.1"
+    }
+}
