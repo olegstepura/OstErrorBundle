@@ -1,0 +1,35 @@
+{##
+ # @author Oleg Stepura <github@oleg.stepura.com>
+ # @copyright Oleg Stepura <github@oleg.stepura.com>
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ #
+ # This is the template for errors happened on running application in console.
+ #}
+{% set output %}
+
+	----------------------------------------------------------------
+	| {{ code_human }} #{{ error_number }}: {{ message|raw }}
+	|
+{% if file is not empty %}
+	| File: {{ file }}
+{% endif %}
+{% if line != 0 %}
+	| Line: {{ line }}
+{% endif %}
+	| Generated at: {{ "now"|date("Y-m-d H:i:s") }}
+	|
+{% for stack in trace %}
+	{% if stack.class is defined %}
+		| #{{ loop.index0 }}: {{ stack.class }}{{ stack.type|raw }}{{ stack.function }}()
+	{% else %}
+		| #{{ loop.index0 }}: {{ stack.function }}()
+	{% endif %}
+	{% if stack.file is defined %}
+		|     {{ stack.file }} : {{ stack.line }}
+	{% endif %}
+{% endfor %}
+	----------------------------------------------------------------
+
+{% endset %}
+{{ output|replace({"\t\t\t": "\t", "\t\t": "\t"}) }}

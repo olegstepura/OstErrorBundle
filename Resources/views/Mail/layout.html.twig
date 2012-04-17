@@ -1,0 +1,111 @@
+{% spaceless %}
+
+{% block title %}{% endblock %}
+<hr />{{ message|raw }}<hr />
+
+<strong>Host: </strong> {{ host }} <br />
+
+{% if remote_ip %}
+	<strong>IP: </strong> {{ remote_ip }} <br />
+{% endif %}
+
+{% if request_url %}
+	<strong>URL: </strong> {{ request_url }} <br />
+{% endif %}
+
+{% if referer %}
+	<strong>Referer: </strong> {{ referer }} <br />
+{% endif %}
+
+<strong>Generated at: </strong> {{ "now"|date("Y-m-d H:i:s") }} <br />
+
+{% if file is not empty %}
+	<strong>File: </strong> {{ file }} <br />
+{% endif %}
+
+{% if line != 0 %}
+	<strong>Line: </strong> <u>{{ line }}</u> <br />
+{% endif %}
+
+{% if code != 0 %}
+	<strong>Code: </strong> {{ code }} <br />
+{% endif %}
+
+{% block custom_info %}{% endblock %}
+
+
+{% if argv is not empty %}
+	<strong>Command line: </strong>
+	{% for arg in argv %}
+		{{ arg }}
+	{% endfor %}
+{% endif %}
+
+{% if displayed %}
+	<strong>Was displayed on screen as well</strong> <br />
+{% endif %}
+
+{% if trace is not empty %}
+	<h3>Stack trace:</h3>
+	<ol>
+		{% for stack in trace %}
+			<li>
+				{% if stack.class is defined %}
+					{{ stack.class }}{{ stack.type }}{{ stack.function }}()
+				{% else %}
+					{{ stack.function }}()
+				{% endif %}
+				{% if stack.file is defined %}
+					<br /><code>{{ stack.file }} : {{ stack.line }}</code>
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ol>
+{% endif %}
+
+{% if request_attributes is not empty %}
+	<h3>Request Attributes:</h3>
+	<ul>
+		{% for key, header in request_attributes %}
+			<li><strong>{{ key }}</strong>: {{ header }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if request_post is not empty %}
+	<h3>POST:</h3>
+	<ul>
+		{% for key, value in request_post %}
+			<li><strong>{{ key }}</strong>: {{ value }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if context is not empty %}
+	<h3>Context:</h3>
+	<ul>
+		{% for varName, varValue in context %}
+			<li><strong>{{ varName }}</strong>: {{ varValue }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if request_headers is not empty %}
+	<h3>Request Headers:</h3>
+	<ul>
+		{% for key, header in request_headers %}
+			<li><strong>{{ key }}</strong>: {{ header }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% if server_params is not empty %}
+	<h3>Server Parameters:</h3>
+	<ul>
+		{% for key, header in server_params %}
+			<li><strong>{{ key }}</strong>: {{ header }}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
+
+{% endspaceless %}

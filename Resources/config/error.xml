@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+
+		<parameter key="ost_error.mailer.class">Ost\ErrorBundle\Mailer\Mailer</parameter>
+		<parameter key="ost_error.not_found_handler.class">Ost\ErrorBundle\Handler\NotFoundHandler</parameter>
+		<parameter key="ost_error.mailer.error_template">OstErrorBundle:Mail:error.html.twig</parameter>
+		<parameter key="ost_error.mailer.info_template">OstErrorBundle:Mail:info.html.twig</parameter>
+		<parameter key="ost_error.mailer.exception_template">OstErrorBundle:Mail:exception.html.twig</parameter>
+		<parameter key="ost_error.error_display_template">OstErrorBundle:Mail:error_display.html.twig</parameter>
+		<parameter key="ost_error.error_display_cli_template">OstErrorBundle:Mail:error_display.txt.twig</parameter>
+
+	</parameters>
+
+	<!-- Services configuration -->
+
+	<services>
+
+		<service id="ost_error.mailer" class="%ost_error.mailer.class%">
+			<tag name="kernel.event_listener" event="kernel.exception" method="onCoreException" />
+			<argument type="service" id="mailer"/>
+			<argument type="service" id="service_container"/>
+		</service>
+
+		<service id="ost_error.not_found_handler" class="%ost_error.not_found_handler.class%">
+			<tag name="kernel.event_listener" event="kernel.exception" method="onCoreException" priority="-127" />
+		</service>
+
+	</services>
+</container>

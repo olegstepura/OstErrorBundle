@@ -1,0 +1,7 @@
+{% extends "OstErrorBundle:Mail:layout.html.twig" %}
+
+{% block title %} {{ exception_class }}: {% endblock %}
+
+{% block custom_info %}
+	<strong>Class name: </strong> {{ exception_class }} <br />
+{% endblock %}

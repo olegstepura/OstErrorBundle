@@ -1,0 +1,99 @@
+{##
+ # @author Oleg Stepura <github@oleg.stepura.com>
+ # @copyright Oleg Stepura <github@oleg.stepura.com>
+ # For the full copyright and license information, please view the LICENSE
+ # file that was distributed with this source code.
+ #
+ # This is the template for errors happened on rendering html page.
+ #
+ # Leaving this div block in <head> makes empty display after page
+ # has loaded, lol! =) Dunno what's happening then:
+ # <div lang="en" style='display: none;'></div>
+ #
+ # So I decided to use this termination block:
+ #}
+<!-- '" -->
+{##
+ # Termination block is needed to close all opened attributes and tags
+ # if an error occurred inside rendering of a tag or it's attribute.
+ #}
+
+{% spaceless %}
+	{% if error_number == 1 %}
+		<style type="text/css">
+			.error-bundle-error,
+			.error-bundle-error .error-font {
+				font: 14px Courier New, Courier, monospace;
+			}
+			.error-bundle-error {
+				background-color: #660000;
+				color: #fff;
+				margin: 0;
+				padding: 20px;
+				border: 2px solid black;
+				clear: both;
+			}
+			.error-bundle-error .trace {
+				list-style: decimal;
+				margin-left: 30px;
+				padding: 0;
+				font: 14px Courier New, Courier, monospace;
+			}
+			.error-bundle-error .trace-item {
+				padding: 10px 10px 10px 0;
+			}
+		</style>
+		<script type="text/javascript">
+			function errorBundleToggleDetails(element)
+			{
+				var t = element.childNodes[1];
+				if(t.style.display == 'none') {
+					t.style.display = '';
+				} else {
+					t.style.display = 'none';
+				}
+				return false;
+			}
+		</script>
+	{% endif %}
+	<div class="error-bundle-error" onClick="return errorBundleToggleDetails(this);">
+		<div class="error-font">
+			<strong class="error-font"> {{ code_human }} #{{ error_number }}: </strong>
+			{{ message|raw }}
+		</div>
+
+		<div style="display: none;" class="error-font">
+			{% if file is not empty %}
+				<strong class="error-font">File: </strong>
+				{{ file }}
+				<br />
+			{% endif %}
+
+			{% if line != 0 %}
+				<strong class="error-font">Line: </strong>
+				<u class="error-font">{{ line }}</u>
+				<br />
+			{% endif %}
+
+			<strong class="error-font">Generated at: </strong> {{ "now"|date("Y-m-d H:i:s") }}
+			<ol class="trace error-font">
+				{% for stack in trace %}
+					<li class="trace-item error-font">
+						{% if stack.class is defined %}
+							{{ stack.class }}{{ stack.type }}{{ stack.function }}()
+						{% else %}
+							{{ stack.function }}()
+						{% endif %}
+
+						{% if stack.file is defined %}
+							<br />
+							<code class="error-font">
+								{{ stack.file }} : {{ stack.line }}
+							</code>
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>
+{% endspaceless %}
