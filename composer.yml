@@ -1,9 +1,17 @@
 name: olegstepura/error-bundle
 description: 'Email notify about errors and exceptions happened in production mode'
 license: MIT
+
 authors:
-    - { name: 'Oleg Stepura', email: github@oleg.stepura.com, homepage: 'http://oleg.stepura.com/' }
+    - name: 'Oleg Stepura'
+      email: github@oleg.stepura.com
+      homepage: 'http://oleg.stepura.com/'
+
 require:
+    php: '>=5.3.2' 
     symfony/symfony: '>=2.0'
     swiftmailer/swiftmailer: '>=4.1.2'
     twig/twig: '>=1.1'
+
+autoload:
+    psr-0: { Ost\ErrorBundle: '' }

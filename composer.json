@@ -10,8 +10,14 @@
         }
     ],
     "require": {
+        "php": ">=5.3.2",
         "symfony/symfony": ">=2.0",
-	    "swiftmailer/swiftmailer": ">=4.1.2",
+        "swiftmailer/swiftmailer": ">=4.1.2",
         "twig/twig": ">=1.1"
+    },
+    "autoload": {
+        "psr-0": {
+            "Ost\\ErrorBundle": ""
+        }
     }
 }
