@@ -15,3 +15,5 @@ require:
 
 autoload:
     psr-0: { Ost\ErrorBundle: '' }
+
+target-dir: Ost/ErrorBundle
